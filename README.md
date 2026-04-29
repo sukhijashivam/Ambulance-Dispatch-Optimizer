@@ -8,7 +8,7 @@ Real-time emergency response using Dijkstra + Greedy Matching
 
 ### After Dispatch
 <p align="center">
-  <img src="https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235140.png" width="700"/>
+  <img src="https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235154.png" width="700"/>
 </p>
 
 ✅ System Components
