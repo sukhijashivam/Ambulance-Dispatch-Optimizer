@@ -1,60 +1,58 @@
-===== AMBULANCE OPTIMIZER SYSTEM - COMPLETE =====
+Readme · MDCopy🚑 Ambulance Dispatch Optimizer
+Real-time emergency response using Dijkstra + Greedy Matching
 
-✅ SYSTEM COMPONENTS:
+📸 Screenshots
+Initial State
+Show Image
+After Dispatch
+Show Image
 
+✅ System Components
 1. C++ Dispatch Engine (algorithms/dispatch_engine.exe)
-   ├─ Dijkstra's Algorithm: Finds shortest routes
-   ├─ Greedy Dispatcher: Assigns nearest ambulance
-   ├─ File Output: writes to algorithms/output.txt
-   └─ Status: WORKING ✓
 
-2. Python Flask Backend (backend/app.py - Port 5000)
-   ├─ API Endpoint: /api/dispatch
-   ├─ Graph Endpoint: /api/graph
-   ├─ Status Endpoint: /api/status
-   ├─ CORS Enabled: Yes
-   └─ Status: RUNNING ✓
+Dijkstra's Algorithm — finds shortest routes
+Greedy Dispatcher — assigns nearest ambulance
+File Output — writes results to algorithms/output.txt
 
-3. Frontend Web App (frontend/ - Port 8000)
-   ├─ Map: Leaflet.js (no API key needed)
-   ├─ UI: Emergency queue, ambulance status
-   ├─ Visualization: Routes, ambulances, results
-   └─ Status: RUNNING ✓
+2. Python Flask Backend (backend/app.py — Port 5000)
 
-===== HOW TO USE =====
+POST /api/dispatch
+GET /api/graph
+GET /api/status
+CORS Enabled
 
-1. Open: http://localhost:8000
+3. Frontend Web App (frontend/ — Port 8000)
 
-2. Add Emergencies:
-   - Select location (0-9 nodes)
-   - Choose priority (Critical/High/Normal)
-   - Select type (Cardiac/Accident/Fire/Injury)
-   - Click "+ Add to Queue"
+Map: Leaflet.js (no API key needed)
+Emergency queue, ambulance status, route visualization
 
-3. Run Dispatch:
-   - Click "🚀 Dispatch Ambulances" button
-   - System will:
-     a) Run C++ dispatcher
-     b) Calculate optimal routes
-     c) Show results on map
-     d) Display ambulance assignments
 
-4. View Results:
-   - Map shows routes in different colors
-   - Right panel shows dispatch details
-   - Ambulance status updates automatically
+📁 Project Structure
+AMBULANCE_OPTIMIZER/
+├── algorithms/
+│   ├── main.cpp
+│   ├── dijkstra.cpp
+│   ├── graph.cpp
+│   ├── dispatcher.cpp
+│   ├── dispatch_engine.exe
+│   ├── output.txt
+│   └── Makefile
+├── backend/
+│   ├── app.py
+│   └── requirements.txt
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── data/
+│   ├── ambulances.json
+│   └── city_graph.json
+└── START_SYSTEM.bat
 
-===== TECHNICAL DETAILS =====
-
-Graph Structure:
-- 10 nodes (0-9): Hospital, Stations, Market, etc.
-- 13 edges: Connected by roads with distances
-- 3 ambulances: Starting at nodes 0, 3, 7
-
-Algorithm Flow:
+🧠 Algorithm Flow
 Input:  Emergency requests with location & priority
    ↓
-Sort:   By priority (1=Critical first)
+Sort:   By priority (Critical first)
    ↓
 Process: For each emergency:
    • Find all available ambulances
@@ -63,88 +61,46 @@ Process: For each emergency:
    • Mark as dispatched
    ↓
 Output: Route, distance, ETA for each dispatch
+Routing: Dijkstra  |  Assignment: Greedy  |  Complexity: O((V+E) log V)
 
-===== OUTPUT EXAMPLE =====
+🗺️ Graph Structure
 
+10 nodes (0–9): Hospital, Stations, Market, etc.
+13 edges: Connected by roads with distances
+3 ambulances: Starting at nodes 0, 3, 7
+
+
+🚀 How to Run
+Compile C++
+bashcd algorithms && make
+Run Backend
+bashcd backend && python app.py
+Run Frontend
+bashcd frontend && python -m http.server 8000
+Run All (Windows)
+START_SYSTEM.bat
+Open: http://localhost:8000
+
+🖥️ How to Use
+
+Select Location Node (0–9), Priority, and Type
+Click + Add to Queue
+Click 🚀 Dispatch Ambulances
+View routes on map and results in the right panel
+
+
+📤 Output Example
 DISPATCH|ambulance:3|emergency:1|distance:3.5|eta:5.25|route:7-8-9|success:1
 DISPATCH|ambulance:2|emergency:2|distance:7|eta:10.5|route:3-6-8-7-5|success:1
 DISPATCH|ambulance:1|emergency:3|distance:4|eta:6|route:0-2|success:1
 
-===== STOPPING THE SYSTEM =====
+🔧 Troubleshooting
+ProblemFixFrontend won't connectMake sure both terminals are running, check ports 5000 and 8000Dispatch returns no resultsCheck algorithms/output.txt exists, recompile if neededMap doesn't loadLeaflet loads from CDN — check internet connection
 
-To stop servers:
-- Close the Terminal windows, OR
-- Kill individual processes:
-  - Backend: Ctrl+C in backend terminal
-  - Frontend: Ctrl+C in frontend terminal
+🔮 Planned Improvements
 
-===== FILES STRUCTURE =====
-
-AMBULANCE_OPTIMIZER/
-├─ algorithms/
-│  ├─ main.cpp (dispatcher logic)
-│  ├─ dijkstra.cpp (pathfinding)
-│  ├─ graph.cpp (city graph)
-│  ├─ dispatcher.cpp (ambulance assignment)
-│  ├─ dispatch_engine.exe (compiled executable)
-│  ├─ output.txt (results written here)
-│  └─ Makefile (for compilation)
-│
-├─ backend/
-│  ├─ app.py (Flask server)
-│  ├─ venv/ (Python virtual environment)
-│  └─ requirement.txt (dependencies)
-│
-├─ frontend/
-│  ├─ index.html (page structure)
-│  ├─ style.css (styling)
-│  ├─ app.js (JavaScript logic)
-│  └─ ... (leaflet.js CDN)
-│
-├─ data/
-│  ├─ ambulances.json
-│  └─ city_graph.json
-│
-└─ START_SYSTEM.bat (one-click starter)
-
-===== TROUBLESHOOTING =====
-
-If frontend doesn't connect to backend:
-- Make sure both terminals are running
-- Check ports: Backend=5000, Frontend=8000
-- Try refreshing the page
-
-If dispatch returns no results:
-- Ensure C++ engine compiled successfully
-- Check algorithms/output.txt exists
-- Verify ambulances are available
-
-If map doesn't load:
-- Check internet (Leaflet loads from CDN)
-- Check browser console for errors
-
-===== NEXT IMPROVEMENTS =====
-
-□ Real-time emergency handling queue
-□ Database persistence
-□ Multi-user support
-□ Advanced ambulance tracking
-□ Traffic simulation
-□ Mobile app
-□ Send actual notifications
-
-===== COMMANDS =====
-
-Compile C++:
-  cd algorithms && make
-
-Run Backend:
-  cd backend && python app.py
-
-Run Frontend:
-  cd frontend && python -m http.server 8000
-
-Run All (Windows):
-  START_SYSTEM.bat
-
-===== END =====
+Real-time emergency handling queue
+Database persistence
+Advanced ambulance tracking
+Traffic simulation
+Mobile app
