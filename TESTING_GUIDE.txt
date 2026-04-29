@@ -1,0 +1,77 @@
+===== TESTING GUIDE =====
+
+STEP 1: Check if C++ engine works
+---
+Expected: Output file is created with results
+Command: cd algorithms && dir output.txt
+Result Should Show: output.txt with dispatch results
+
+STEP 2: Check if Backend is running
+---
+Open in browser or terminal:
+URL: http://localhost:5000/api/status
+
+Expected Response:
+{
+  "status": "online",
+  "engine": "C++ Dispatch v1.0"
+}
+
+STEP 3: Check Graph Data
+---
+URL: http://localhost:5000/api/graph
+
+Expected: JSON with nodes, edges, and ambulances
+
+STEP 4: Test Dispatch API
+---
+Method: POST
+URL: http://localhost:5000/api/dispatch
+Body: {"emergencies": []}
+
+Expected: Array of dispatch results with ambulance IDs, routes, distances
+
+STEP 5: Use the Frontend
+---
+1. Open: http://localhost:8000
+2. Add an emergency:
+   - Location: 9
+   - Priority: Critical
+   - Type: Cardiac
+3. Click "+ Add to Queue"
+4. Click "🚀 Dispatch Ambulances"
+5. See results on map with colored routes
+
+===== EXPECTED MAP VISUALIZATION =====
+
+✅ Dark map with Leaflet
+✅ 10 nodes marked as blue circles
+✅ 3 ambulances marked with 🚑 emoji at nodes 0, 3, 7
+✅ Roads showing connections between nodes
+✅ After dispatch: Colored dashed routes showing ambulance paths
+✅ Results panel showing:
+   - Ambulance ID
+   - Emergency ID
+   - Distance (km)
+   - ETA (minutes)
+   - Full route path
+
+===== EXAMPLE TEST RUN =====
+
+1. Go to frontend (localhost:8000)
+2. Map loads with all nodes and ambulances visible
+3. Add Emergency 1: Location 9, Priority Critical, Type Cardiac
+4. Add Emergency 2: Location 5, Priority High, Type Accident
+5. Add Emergency 3: Location 2, Priority Normal, Type Injury
+6. Click "Dispatch Ambulances"
+
+Expected Results:
+- Ambulance 3 → Emergency 1 (distance: 3.5 km, ETA: 5.25 min)
+- Ambulance 2 → Emergency 2 (distance: 7 km, ETA: 10.5 min)
+- Ambulance 1 → Emergency 3 (distance: 4 km, ETA: 6 min)
+
+- 3 colored routes appear on map
+- Results show in right panel
+- Ambulance status changes to "Dispatched"
+
+===== END TESTING =====

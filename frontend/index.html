@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚑 Ambulance Dispatch Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <span class="logo">🚑</span>
+            <div>
+                <h1>Ambulance Dispatch Optimizer</h1>
+                <p class="subtitle">Real-time emergency response using Dijkstra + Greedy Matching</p>
+            </div>
+        </div>
+
+        <div class="status-badge">
+            <span class="dot"></span> Backend Connected
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+
+            <!-- ADD EMERGENCY -->
+            <div class="card">
+                <h2>🆘 Add Emergency</h2>
+
+                <label>Location Node (0–9)</label>
+                <input type="number" id="emLocation" min="0" max="9" value="9">
+
+                <label>Priority</label>
+                <select id="emPriority">
+                    <option value="1">🔴 Critical</option>
+                    <option value="2">🟠 High</option>
+                    <option value="3">🟡 Normal</option>
+                </select>
+
+                <label>Type</label>
+                <select id="emType">
+                    <option value="cardiac">❤️ Cardiac</option>
+                    <option value="accident">🚗 Accident</option>
+                    <option value="fire">🔥 Fire</option>
+                    <option value="injury">🩹 Injury</option>
+                </select>
+
+                <button onclick="addEmergency()" class="btn btn-add">
+                    + Add to Queue
+                </button>
+            </div>
+
+            <!-- QUEUE -->
+            <div class="card">
+                <h2>📋 Emergency Queue</h2>
+
+                <div id="emergencyQueue">
+                    <p>No emergencies queued</p>
+                </div>
+
+                <!-- ✅ FIXED BUTTON -->
+                <button class="btn btn-dispatch" onclick="dispatchAmbulances()">
+                    🚀 Dispatch Ambulances
+                </button>
+            </div>
+
+            <!-- AMBULANCES -->
+            <div class="card">
+                <h2>🚑 Ambulance Status</h2>
+
+                <div>
+                    <div>🚑 Unit #1 - Available</div>
+                    <div>🚑 Unit #2 - Available</div>
+                    <div>🚑 Unit #3 - Available</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CENTER MAP -->
+        <div class="center-panel">
+            <div id="map" style="height: 500px;"></div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+
+            <!-- RESULTS -->
+            <div class="card">
+                <h2>📊 Dispatch Results</h2>
+
+                <!-- ✅ IMPORTANT ID MATCH -->
+                <div id="dispatchResults">
+                    No dispatches yet
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="card">
+                <h2>🧠 Algorithm Info</h2>
+
+                <p><b>Routing:</b> Dijkstra</p>
+                <p><b>Assignment:</b> Greedy</p>
+                <p><b>Complexity:</b> O((V+E) log V)</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- JS FILE -->
+<script src="app.js"></script>
+
+</body>
+</html>
