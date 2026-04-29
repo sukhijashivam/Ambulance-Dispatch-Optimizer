@@ -3,9 +3,9 @@ Real-time emergency response using Dijkstra + Greedy Matching
 
 📸 Screenshots
 Initial State
-Show Image
+https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235140.png
 After Dispatch
-Show Image
+https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235140.png
 
 ✅ System Components
 1. C++ Dispatch Engine (algorithms/dispatch_engine.exe)
