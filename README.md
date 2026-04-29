@@ -1,5 +1,9 @@
-Readme · MDCopy🚑 Ambulance Dispatch Optimizer
-Real-time emergency response using Dijkstra + Greedy Matching
+# 🚑 Ambulance Dispatch Optimizer
+
+Real-time emergency response system using **Dijkstra + Greedy Matching**
+
+
+## 📸 Screenshots
 
 ### Initial State
 <p align="center">
@@ -11,27 +15,29 @@ Real-time emergency response using Dijkstra + Greedy Matching
   <img src="https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235154.png" width="700"/>
 </p>
 
-✅ System Components
-1. C++ Dispatch Engine (algorithms/dispatch_engine.exe)
 
-Dijkstra's Algorithm — finds shortest routes
-Greedy Dispatcher — assigns nearest ambulance
-File Output — writes results to algorithms/output.txt
+## ✅ System Components
 
-2. Python Flask Backend (backend/app.py — Port 5000)
+**1. C++ Dispatch Engine** (`algorithms/dispatch_engine.exe`)
+- Dijkstra's Algorithm — finds shortest routes
+- Greedy Dispatcher — assigns nearest ambulance
+- File Output — writes results to `algorithms/output.txt`
 
-POST /api/dispatch
-GET /api/graph
-GET /api/status
-CORS Enabled
+**2. Python Flask Backend** (`backend/app.py` — Port 5000)
+- `POST /api/dispatch`
+- `GET /api/graph`
+- `GET /api/status`
+- CORS Enabled
 
-3. Frontend Web App (frontend/ — Port 8000)
+**3. Frontend Web App** (`frontend/` — Port 8000)
+- Map: Leaflet.js (no API key needed)
+- Emergency queue, ambulance status, route visualization
 
-Map: Leaflet.js (no API key needed)
-Emergency queue, ambulance status, route visualization
+---
 
+## 📁 Project Structure
 
-📁 Project Structure
+```
 AMBULANCE_OPTIMIZER/
 ├── algorithms/
 │   ├── main.cpp
@@ -52,8 +58,13 @@ AMBULANCE_OPTIMIZER/
 │   ├── ambulances.json
 │   └── city_graph.json
 └── START_SYSTEM.bat
+```
 
-🧠 Algorithm Flow
+---
+
+## 🧠 Algorithm Flow
+
+```
 Input:  Emergency requests with location & priority
    ↓
 Sort:   By priority (Critical first)
@@ -65,47 +76,80 @@ Process: For each emergency:
    • Mark as dispatched
    ↓
 Output: Route, distance, ETA for each dispatch
-Routing: Dijkstra  |  Assignment: Greedy  |  Complexity: O((V+E) log V)
+```
 
-🗺️ Graph Structure
+**Routing:** Dijkstra &nbsp;|&nbsp; **Assignment:** Greedy &nbsp;|&nbsp; **Complexity:** O((V+E) log V)
 
-10 nodes (0–9): Hospital, Stations, Market, etc.
-13 edges: Connected by roads with distances
-3 ambulances: Starting at nodes 0, 3, 7
+---
 
+## 🗺️ Graph Structure
 
-🚀 How to Run
-Compile C++
-bashcd algorithms && make
-Run Backend
-bashcd backend && python app.py
-Run Frontend
-bashcd frontend && python -m http.server 8000
-Run All (Windows)
+- **10 nodes (0–9):** Hospital, Stations, Market, etc.
+- **13 edges:** Connected by roads with distances
+- **3 ambulances:** Starting at nodes 0, 3, 7
+
+---
+
+## 🚀 How to Run
+
+### Compile C++
+```bash
+cd algorithms && make
+```
+
+### Run Backend
+```bash
+cd backend && python app.py
+```
+
+### Run Frontend
+```bash
+cd frontend && python -m http.server 8000
+```
+
+### Run All (Windows)
+```
 START_SYSTEM.bat
-Open: http://localhost:8000
+```
 
-🖥️ How to Use
+Open: **http://localhost:8000**
 
-Select Location Node (0–9), Priority, and Type
-Click + Add to Queue
-Click 🚀 Dispatch Ambulances
-View routes on map and results in the right panel
+---
 
+## 🖥️ How to Use
 
-📤 Output Example
+1. Select **Location Node (0–9)**, **Priority**, and **Type**
+2. Click **+ Add to Queue**
+3. Click **🚀 Dispatch Ambulances**
+4. View routes on map and results in the right panel
+
+---
+
+## 📤 Output Example
+
+```
 DISPATCH|ambulance:3|emergency:1|distance:3.5|eta:5.25|route:7-8-9|success:1
 DISPATCH|ambulance:2|emergency:2|distance:7|eta:10.5|route:3-6-8-7-5|success:1
 DISPATCH|ambulance:1|emergency:3|distance:4|eta:6|route:0-2|success:1
+```
 
-🔧 Troubleshooting
-ProblemFixFrontend won't connectMake sure both terminals are running, check ports 5000 and 8000Dispatch returns no resultsCheck algorithms/output.txt exists, recompile if neededMap doesn't loadLeaflet loads from CDN — check internet connection
+---
 
-🔮 Planned Improvements
+## 🔧 Troubleshooting
 
-Real-time emergency handling queue
-Database persistence
-Advanced ambulance tracking
-Traffic simulation
-Mobile app
+| Problem | Fix |
+|---|---|
+| Frontend won't connect | Make sure both terminals are running, check ports 5000 and 8000 |
+| Dispatch returns no results | Check `algorithms/output.txt` exists, recompile if needed |
+| Map doesn't load | Leaflet loads from CDN — check internet connection |
+
+---
+
+## 🔮 Planned Improvements
+
+- Real-time emergency handling queue
+- Database persistence
+- Advanced ambulance tracking
+- Traffic simulation
+- Mobile app
 
