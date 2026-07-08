@@ -279,6 +279,77 @@ body {
 
 .empty-msg { color: var(--text-secondary); font-size: 0.82rem; text-align: center; padding: 20px 0; }
 
+/* ===== CENTER PANEL (map) ===== */
+.center-panel { height: 100%; display: flex; flex-direction: column; }
+
+/* ===== DISTANCE MATRIX TABLE ===== */
+.dist-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+
+.dist-table th, .dist-table td {
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.dist-table th {
+    background: var(--bg-card2);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.72rem;
+}
+
+.dist-table td.row-label {
+    background: var(--bg-card2);
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dist-table {
+    display: block;
+    overflow-x: auto;
+}
+
+/* ===== ADDRESS AUTOCOMPLETE DROPDOWN ===== */
+.suggestion-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-top: 2px;
+    max-height: 180px;
+    overflow-y: auto;
+    display: none;
+}
+
+.suggestion-dropdown.active { display: block; }
+
+.suggestion-item {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+}
+
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:hover { background: var(--accent-blue); color: white; }
+
+.suggestion-empty {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
