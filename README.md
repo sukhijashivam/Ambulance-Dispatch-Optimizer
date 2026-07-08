@@ -1,155 +1,134 @@
 # 🚑 Ambulance Dispatch Optimizer
 
-Real-time emergency response system using **Dijkstra + Greedy Matching**
+A real-time ambulance dispatch system that assigns ambulances to emergencies **optimally** using real road distances and the Hungarian Algorithm — not just "nearest ambulance" greedy logic.
+
+**🔗 Live Demo:** [ambulance-dispatch-optimizer-1.onrender.com](https://ambulance-dispatch-optimizer-1.onrender.com/)
 
 
-## 📸 Screenshots
+---
 
-### Initial State
-<p align="center">
-  <img src="https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235140.png" width="700"/>
-</p>
+## 📖 Overview
 
-### After Dispatch
-<p align="center">
-  <img src="https://github.com/sukhijashivam/Ambulance-Dispatch-Optimizer/blob/main/screenshots/Screenshot%202026-04-29%20235154.png" width="700"/>
-</p>
+Emergency response systems often assign the *nearest* ambulance to each emergency independently, which can lead to a globally suboptimal outcome (e.g. two ambulances competing for the same nearby emergency while another sits far and unattended).
 
+This project solves that as an **assignment problem**: given a fleet of ambulances and a queue of emergencies, it computes real road distances between every ambulance–emergency pair and finds the assignment that **minimizes total distance across all dispatches** — using the **Hungarian Algorithm (O(n³))**.
 
-## ✅ System Components
+---
 
-**1. C++ Dispatch Engine** (`algorithms/dispatch_engine.exe`)
-- Dijkstra's Algorithm — finds shortest routes
-- Greedy Dispatcher — assigns nearest ambulance
-- File Output — writes results to `algorithms/output.txt`
+## ✨ Features
 
-**2. Python Flask Backend** (`backend/app.py` — Port 5000)
-- `POST /api/dispatch`
-- `GET /api/graph`
-- `GET /api/status`
-- CORS Enabled
+- 📍 **Real addresses, not dummy coordinates** — search and geocode any real-world location (powered by OpenStreetMap Nominatim)
+- 🛣️ **Real road distances & routes** via OSRM (Open Source Routing Machine) — not straight-line distance
+- 🧮 **Optimal assignment** using the Hungarian Algorithm, guaranteeing minimum total dispatch distance
+- 🗺️ **Interactive live map** built with Leaflet.js showing ambulances, emergencies, and computed routes
+- 🚨 **Emergency queue management** — add emergencies with priority (Critical / High / Normal) and type (Cardiac, Accident, Fire, Injury, etc.)
+- 🚑 **Ambulance fleet management** — register ambulance stations at any real address
+- ⏱️ **ETA calculation** for every dispatch
+- 📊 **Distance matrix view** showing computed real-road distance between every ambulance and every emergency
+- 🔌 **Full-stack real-time architecture** — C++ dispatch engine + Flask API backend + JS frontend, connected live
 
-**3. Frontend Web App** (`frontend/` — Port 8000)
-- Map: Leaflet.js (no API key needed)
-- Emergency queue, ambulance status, route visualization
+---
+
+## 🖼️ Screenshots
+
+### Dashboard — Before Dispatch
+![Dashboard Empty](screenshots/dashboard-empty.png)
+
+### Dashboard — After Optimized Dispatch
+![Dashboard Overview](screenshots/dashboard-overview.png)
+
+### Distance Matrix & Optimal Assignment
+![Optimal Assignment](screenshots/optimal-assignment.png)
+
+### Adding an Emergency (with address autocomplete)
+| Add Emergency | Address Autocomplete |
+|---|---|
+| ![Add Emergency](screenshots/add-emergency.png) | ![Emergency Autocomplete](screenshots/emergency-autocomplete.png) |
+
+### Adding an Ambulance (with address autocomplete)
+| Add Ambulance | Address Autocomplete |
+|---|---|
+| ![Add Ambulance](screenshots/add-ambulance.png) | ![Ambulance Autocomplete](screenshots/ambulance-autocomplete.png) |
+
+---
+
+## 🧠 How It Works
+
+    1. Add Ambulances     → Register ambulance stations by real address (geocoded via Nominatim)
+    2. Add Emergencies    → Register emergencies by real address + priority + type
+    3. Optimize Dispatch  →
+           a) Backend queries OSRM for real road distance/duration
+              between every ambulance x every emergency (distance matrix)
+           b) Hungarian Algorithm runs on this matrix to find the
+              assignment that minimizes TOTAL distance across all pairs
+           c) Routes are drawn on the map, ETA computed for each pair
+    4. View Results       → Optimal assignment, per-dispatch distance/ETA,
+                             and total fleet distance are displayed
+
+**Why Hungarian Algorithm over Greedy?**
+A greedy "nearest ambulance first" approach optimizes each emergency locally, but can produce a worse global outcome (e.g. one ambulance serving two nearby emergencies while a distant one is dispatched from a further station). The Hungarian Algorithm solves the assignment holistically in O(n³), guaranteeing the minimum possible total distance across the whole fleet.
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Dispatch Engine | C++ (Hungarian Algorithm for optimal assignment) |
+| Backend API | Python (Flask), CORS-enabled |
+| Routing / Distance | OSRM (Open Source Routing Machine) — real road network |
+| Geocoding | OpenStreetMap Nominatim (address → coordinates + autocomplete) |
+| Frontend | HTML, CSS, JavaScript |
+| Map Rendering | Leaflet.js |
+| Deployment | Render |
 
 ---
 
 ## 📁 Project Structure
 
-```
-AMBULANCE_OPTIMIZER/
-├── algorithms/
-│   ├── main.cpp
-│   ├── dijkstra.cpp
-│   ├── graph.cpp
-│   ├── dispatcher.cpp
-│   ├── dispatch_engine.exe
-│   ├── output.txt
-│   └── Makefile
-├── backend/
-│   ├── app.py
-│   └── requirements.txt
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   └── app.js
-├── data/
-│   ├── ambulances.json
-│   └── city_graph.json
-└── START_SYSTEM.bat
-```
+    Ambulance-Dispatch-Optimizer/
+    ├── algorithms/       # C++ dispatch engine (Hungarian Algorithm)
+    ├── backend/          # Flask API (routing, geocoding, dispatch endpoints)
+    ├── frontend/         # UI (map, emergency/ambulance panels, results)
+    ├── data/             # Ambulance & emergency data
+    ├── screenshots/      # README images
+    ├── START_SYSTEM.bat
+    └── README.md
 
 ---
 
-## 🧠 Algorithm Flow
+## 🚀 Usage
 
-```
-Input:  Emergency requests with location & priority
-   ↓
-Sort:   By priority (Critical first)
-   ↓
-Process: For each emergency:
-   • Find all available ambulances
-   • Run Dijkstra from each ambulance to emergency
-   • Pick closest ambulance (greedy)
-   • Mark as dispatched
-   ↓
-Output: Route, distance, ETA for each dispatch
-```
-
-**Routing:** Dijkstra &nbsp;|&nbsp; **Assignment:** Greedy &nbsp;|&nbsp; **Complexity:** O((V+E) log V)
+1. **Add Ambulances** — enter a station name (optional) and real address, click **+ Add Ambulance**
+2. **Add Emergencies** — enter address, select priority and type, click **+ Add to Queue**
+3. Click **🚀 Optimize Dispatch**
+4. View:
+   - Real-road distance matrix between every ambulance–emergency pair
+   - Optimal ambulance → emergency assignment with distance & ETA
+   - Total fleet distance for the optimal solution
+   - Routes drawn live on the map
 
 ---
 
-## 🗺️ Graph Structure
+## 🔮 Future Improvements
 
-- **10 nodes (0–9):** Hospital, Stations, Market, etc.
-- **13 edges:** Connected by roads with distances
-- **3 ambulances:** Starting at nodes 0, 3, 7
-
----
-
-## 🚀 How to Run
-
-### Compile C++
-```bash
-cd algorithms && make
-```
-
-### Run Backend
-```bash
-cd backend && python app.py
-```
-
-### Run Frontend
-```bash
-cd frontend && python -m http.server 8000
-```
-
-### Run All (Windows)
-```
-START_SYSTEM.bat
-```
-
-Open: **http://localhost:8000**
+- [ ] Real-time emergency queue with live updates / websockets
+- [ ] Database persistence (currently in-memory)
+- [ ] Multi-user / multi-city support
+- [ ] Live ambulance GPS tracking
+- [ ] Traffic-aware routing (currently static OSRM distances)
+- [ ] SMS/push notifications to dispatched ambulance crews
+- [ ] Mobile app version
 
 ---
 
-## 🖥️ How to Use
+## 👤 Author
 
-1. Select **Location Node (0–9)**, **Priority**, and **Type**
-2. Click **+ Add to Queue**
-3. Click **🚀 Dispatch Ambulances**
-4. View routes on map and results in the right panel
+**Shivam Sukhija**
+GitHub: [@sukhijashivam](https://github.com/sukhijashivam)
 
 ---
 
-## 📤 Output Example
+## 📄 License
 
-```
-DISPATCH|ambulance:3|emergency:1|distance:3.5|eta:5.25|route:7-8-9|success:1
-DISPATCH|ambulance:2|emergency:2|distance:7|eta:10.5|route:3-6-8-7-5|success:1
-DISPATCH|ambulance:1|emergency:3|distance:4|eta:6|route:0-2|success:1
-```
-
----
-
-## 🔧 Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| Frontend won't connect | Make sure both terminals are running, check ports 5000 and 8000 |
-| Dispatch returns no results | Check `algorithms/output.txt` exists, recompile if needed |
-| Map doesn't load | Leaflet loads from CDN — check internet connection |
-
----
-
-## 🔮 Planned Improvements
-
-- Real-time emergency handling queue
-- Database persistence
-- Advanced ambulance tracking
-- Traffic simulation
-- Mobile app
-
+This project is licensed under the MIT License.
