@@ -43,7 +43,7 @@ This project solves that as an **assignment problem**: given a fleet of ambulanc
 ### Adding an Emergency (with address autocomplete)
 | Add Emergency | Address Autocomplete |
 |---|---|
-| ![Add Emergency](screenshots/add-emergency.png) | ![Emergency Autocomplete](screenshots/emergency-autocomplete.png) |
+| ![Add Emergency](screenshots/add-emergency.png) | ![Emergency Autocomplete](emergency-autocomplete.png) |
 
 ### Adding an Ambulance (with address autocomplete)
 | Add Ambulance | Address Autocomplete |
