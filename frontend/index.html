@@ -20,7 +20,7 @@
             <span class="logo">🚑</span>
             <div>
                 <h1>Ambulance Dispatch Optimizer</h1>
-                <p class="subtitle">Real-time emergency response using Dijkstra + Greedy Matching</p>
+                <p class="subtitle">Real addresses · Real roads (OSRM) · Optimal matching (Hungarian Algorithm)</p>
             </div>
         </div>
 
@@ -35,58 +35,71 @@
         <!-- LEFT PANEL -->
         <div class="left-panel">
 
+            <!-- ADD AMBULANCE -->
+            <div class="card">
+                <h2>🚑 Add Ambulance</h2>
+
+                <div class="form-group">
+                    <label>Station Name (optional)</label>
+                    <input type="text" id="ambName" placeholder="e.g. Station 1">
+                </div>
+
+                <div class="form-group" style="position: relative;">
+                    <label>Address / Place</label>
+                    <input type="text" id="ambAddress" placeholder="e.g. Civil Hospital, Patiala" autocomplete="off">
+                    <div id="ambSuggestions" class="suggestion-dropdown"></div>
+                </div>
+
+                <button onclick="addAmbulance()" class="btn btn-add">
+                    + Add Ambulance
+                </button>
+
+                <div id="ambulanceList" class="queue-list" style="margin-top: 12px;">
+                    <p class="empty-msg">No ambulances added</p>
+                </div>
+            </div>
+
             <!-- ADD EMERGENCY -->
             <div class="card">
                 <h2>🆘 Add Emergency</h2>
 
-                <label>Location Node (0–9)</label>
-                <input type="number" id="emLocation" min="0" max="9" value="9">
+                <div class="form-group" style="position: relative;">
+                    <label>Address / Place</label>
+                    <input type="text" id="emAddress" placeholder="e.g. Model Town, Patiala" autocomplete="off">
+                    <div id="emSuggestions" class="suggestion-dropdown"></div>
+                </div>
 
-                <label>Priority</label>
-                <select id="emPriority">
-                    <option value="1">🔴 Critical</option>
-                    <option value="2">🟠 High</option>
-                    <option value="3">🟡 Normal</option>
-                </select>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="emPriority">
+                        <option value="1">🔴 Critical</option>
+                        <option value="2">🟠 High</option>
+                        <option value="3">🟡 Normal</option>
+                    </select>
+                </div>
 
-                <label>Type</label>
-                <select id="emType">
-                    <option value="cardiac">❤️ Cardiac</option>
-                    <option value="accident">🚗 Accident</option>
-                    <option value="fire">🔥 Fire</option>
-                    <option value="injury">🩹 Injury</option>
-                </select>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="emType">
+                        <option value="cardiac">❤️ Cardiac</option>
+                        <option value="accident">🚗 Accident</option>
+                        <option value="fire">🔥 Fire</option>
+                        <option value="injury">🩹 Injury</option>
+                    </select>
+                </div>
 
                 <button onclick="addEmergency()" class="btn btn-add">
                     + Add to Queue
                 </button>
-            </div>
 
-            <!-- QUEUE -->
-            <div class="card">
-                <h2>📋 Emergency Queue</h2>
-
-                <div id="emergencyQueue">
-                    <p>No emergencies queued</p>
-                </div>
-
-                <!-- ✅ FIXED BUTTON -->
-                <button class="btn btn-dispatch" onclick="dispatchAmbulances()">
-                    🚀 Dispatch Ambulances
-                </button>
-            </div>
-
-            <!-- AMBULANCES -->
-            <div class="card">
-                <h2>🚑 Ambulance Status</h2>
-
-                <div>
-                    <div>🚑 Unit #1 - Available</div>
-                    <div>🚑 Unit #2 - Available</div>
-                    <div>🚑 Unit #3 - Available</div>
+                <div id="emergencyQueue" class="queue-list" style="margin-top: 12px;">
+                    <p class="empty-msg">No emergencies queued</p>
                 </div>
             </div>
 
+            <button class="btn btn-dispatch" onclick="optimizeDispatch()">
+                🚀 Optimize Dispatch
+            </button>
         </div>
 
         <!-- CENTER MAP -->
@@ -97,23 +110,30 @@
         <!-- RIGHT PANEL -->
         <div class="right-panel">
 
-            <!-- RESULTS -->
+            <!-- DISTANCE MATRIX -->
             <div class="card">
-                <h2>📊 Dispatch Results</h2>
+                <h2>📏 Distance Matrix (real road distance)</h2>
+                <div id="distanceMatrix">
+                    <p class="empty-msg">Add ambulances + emergencies, then optimize</p>
+                </div>
+            </div>
 
-                <!-- ✅ IMPORTANT ID MATCH -->
+            <!-- FINAL ASSIGNMENT -->
+            <div class="card">
+                <h2>✅ Optimal Assignment</h2>
                 <div id="dispatchResults">
-                    No dispatches yet
+                    <p class="empty-msg">No dispatch computed yet</p>
                 </div>
             </div>
 
             <!-- INFO -->
             <div class="card">
                 <h2>🧠 Algorithm Info</h2>
-
-                <p><b>Routing:</b> Dijkstra</p>
-                <p><b>Assignment:</b> Greedy</p>
-                <p><b>Complexity:</b> O((V+E) log V)</p>
+                <div class="algo-info">
+                    <div class="algo-item"><strong>Distance</strong><span>OSRM (real roads)</span></div>
+                    <div class="algo-item"><strong>Assignment</strong><span>Hungarian (optimal)</span></div>
+                    <div class="algo-item"><strong>Complexity</strong><span>O(n³)</span></div>
+                </div>
             </div>
 
         </div>
